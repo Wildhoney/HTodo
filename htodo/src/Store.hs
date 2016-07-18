@@ -1,4 +1,10 @@
-module Todos (add) where
+module Store (addTodo) where
 
-add :: String -> [String] -> [String]
-add task tasks = task:tasks
+import Data.List (delete)
+
+addTodo :: Maybe a -> [a] -> [a]
+addTodo (Just task) tasks = task:tasks
+addTodo Nothing tasks     = tasks
+
+removeTodo :: Eq a => Int -> [a] -> [a]
+removeTodo index tasks    = delete (tasks !! index) tasks
