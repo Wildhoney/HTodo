@@ -1,6 +1,6 @@
 module Interactive (promptAdd) where
 
---promptAdd :: String -> [String] -> [String]
+promptAdd :: IO String
 promptAdd = do
     putStr $ "Task: "
     todo <- getLine
