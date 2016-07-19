@@ -1,7 +1,7 @@
 module Interactive (promptAdd) where
 
-promptAdd :: IO String
+promptAdd :: IO (Maybe String)
 promptAdd = do
     putStr $ "Task: "
     todo <- getLine
-    return todo
+    if not $ null todo then return $ Just todo else return Nothing

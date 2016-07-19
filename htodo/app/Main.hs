@@ -8,6 +8,6 @@ import Interactive (promptAdd)
 main :: IO ()
 main = do
     task  <- promptAdd
-    todos <- return (addTodo (Just task) [])
+    todos <- return $ addTodo task []
     putStrLn $ show $ todos
     return ()
