@@ -1,6 +1,6 @@
 module Main where
 
-import Store       (addTodo, removeTodo)
+import Store       (addTodo, removeTodo, enumTodos)
 import Interactive (promptAdd)
 
 main :: IO ()

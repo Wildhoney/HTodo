@@ -1,14 +1,18 @@
-module Store (addTodo, removeTodo) where
+module Store (addTodo, removeTodo, enumTodos) where
 
 import Data.List   (delete)
 import Data.Either (Either(..))
 
 addTodo :: Maybe a -> [a] -> [a]
-addTodo (Just task) tasks = task:tasks
-addTodo Nothing tasks     = tasks
+addTodo (Just task) todos = task:todos
+addTodo Nothing todos     = todos
 
-removeTodo :: Eq a => Int -> [a] -> Either String [a]
-removeTodo index tasks | inRange   = Right $ delete (tasks !! index) tasks
-                       | otherwise = Left "Index too large"
+removeTodo :: Eq a => Int -> [a] -> Maybe [a]
+removeTodo index todos
+    | inRange   = Just $ delete (todos !! index) todos
+    | otherwise = Nothing
     where
-        inRange = index < length tasks
+        inRange = index < length todos
+
+enumTodos :: (Enum a, Num a) => [b] -> [(a, b)]
+enumTodos todos = zip [0..] todos
