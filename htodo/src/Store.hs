@@ -15,4 +15,4 @@ removeTodo index todos
         inRange = index < length todos
 
 enumTodos :: (Enum a, Num a) => [b] -> [(a, b)]
-enumTodos todos = zip [0..] todos
+enumTodos = zip [0..]
