@@ -3,3 +3,8 @@
 
 # ide
 .idea
+
+# build
+htodo/app/Main
+htodo/app/Main.hi
+htodo/app/Main.o
