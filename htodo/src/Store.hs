@@ -1,18 +1,21 @@
 module Store (addTodo, removeTodo, enumTodos) where
 
-import Data.List   (delete)
-import Data.Either (Either(..))
+import Data.List        (delete)
+import Data.Either      (Either(..))
 
-addTodo :: Maybe a -> [a] -> [a]
-addTodo (Just task) todos = task:todos
-addTodo Nothing todos     = todos
+filename :: String
+filename = "./htodo/todos.txt"
 
-removeTodo :: Eq a => Int -> [a] -> Maybe [a]
-removeTodo index todos
-    | inRange   = Just $ delete (todos !! index) todos
-    | otherwise = Nothing
+readTodos :: IO [String]
+readTodos = readFile filename >>= (\todos -> return $ lines todos)
+
+addTodo :: String -> IO [String]
+addTodo task = appendFile filename (task ++ "\n") >> readTodos
+
+removeTodo :: Int -> IO [String]
+removeTodo index = readTodos >>= (\todos -> return $ delete (todos !! index) todos)
+
+enumTodos :: IO [(Integer, String)]
+enumTodos = readTodos >>= parseLines
     where
-        inRange = index < length todos
-
-enumTodos :: (Enum a, Num a) => [b] -> [(a, b)]
-enumTodos = zip [0..]
+        parseLines content = return $ zip [1..] $ content
