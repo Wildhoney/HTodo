@@ -12,8 +12,8 @@ data HTodoArgs = HTodoArgs {
     list   :: String
 } deriving (Show, Data, Typeable)
 
-handleArgs :: HTodoArgs -> IO [String]
-handleArgs HTodoArgs { add    = task@(_:_) }  = addTodo task
---handleArgs HTodoArgs { remove = index@(_:_) } = removeTodo 1
---handleArgs HTodoArgs { list   = (_:_) }       = enumTodos
+handleArgs :: HTodoArgs -> IO [(Integer, String)]
+handleArgs HTodoArgs { add    = task@(_:_) }  = addTodo task >> enumTodos
+handleArgs HTodoArgs { remove = index@(_:_) } = removeTodo 1 >> enumTodos
+handleArgs HTodoArgs { list   = (_:_) }       = enumTodos
 --handleArgs args                               = print args

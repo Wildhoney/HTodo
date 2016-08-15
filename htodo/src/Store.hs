@@ -11,18 +11,18 @@ tmpFilename :: String
 tmpFilename = "./htodo/todos.tmp"
 
 readTodos :: IO [String]
-readTodos = readFile filename >>= (\todos -> return $ lines todos)
+readTodos = readFile filename >>= return . lines
 
-addTodo :: String -> IO [String]
-addTodo task = appendFile filename (task ++ "\n") >> readTodos
+addTodo :: String -> IO ()
+addTodo task = appendFile filename (task ++ "\n") >> return ()
 
 removeTodo :: Integer -> IO ()
-removeTodo index = removeBy index >>= stripIndexes >>= writeTemp >>= copyFile
+removeTodo index = removeWhere index >>= stripIndexes >>= writeTemp >>= copyFile >> return ()
     where
-        removeBy index     = enumTodos >>= (\todos -> return $ filter (\x -> not $ fst x == index) todos)
-        stripIndexes todos = return $ map snd todos
-        writeTemp todos    = writeFile tmpFilename $ unlines todos
-        copyFile           = return $ removeFile filename >> renameFile tmpFilename filename
+        removeWhere index = enumTodos >>= return . filter (\x -> not $ fst x == index)
+        stripIndexes      = return . map snd
+        writeTemp         = writeFile tmpFilename . unlines
+        copyFile          = return $ removeFile filename >> renameFile tmpFilename filename
 
 enumTodos :: IO [(Integer, String)]
 enumTodos = readTodos >>= parseLines
