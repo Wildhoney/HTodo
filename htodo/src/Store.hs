@@ -1,7 +1,6 @@
 module Store (addTodo, removeTodo, enumTodos) where
 
-import Data.List (delete)
-import System.IO (openFile, writeFile)
+import System.IO        (writeFile)
 import System.Directory (removeFile, renameFile)
 
 filename :: String
