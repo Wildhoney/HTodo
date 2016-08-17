@@ -6,9 +6,6 @@ import System.Directory (removeFile, renameFile)
 filename :: String
 filename = "./htodo/todos.txt"
 
-readTodos :: IO [String]
-readTodos = readFile filename >>= return . lines
-
 addTodo :: String -> IO ()
 addTodo task = appendFile filename (task ++ "\n") >> return ()
 
@@ -23,4 +20,4 @@ removeTodo index = openTempFile "." "txt" >>= \(name, handle) ->
     return ()
 
 enumTodos :: IO [(Integer, String)]
-enumTodos = readTodos >>= return . zip [1..]
+enumTodos = readFile filename >>= return . lines >>= return . zip [1..]

@@ -1,10 +1,16 @@
 module Main where
 
-import System.Console.CmdArgs (cmdArgs, def, help, (&=), Data, Typeable)
-import Args                   (handleArgs, HTodoArgs(..))
+import System.Environment (getArgs)
+import System.Exit        (exitWith, ExitCode(..))
+import Store              (addTodo, removeTodo, enumTodos)
 
-main = handleArgs =<< cmdArgs HTodoArgs {
-    add    = def &= help "Add a todo",
-    remove = def &= help "Remove a todo by its index",
-    list   = def &= help "List all todos with their associated indices"
-}
+main = getArgs >>= parse
+
+parse ["+", todo]  = addTodo todo
+parse ["-", index] = removeTodo 1
+parse []           = enumTodos >>= print >> exit
+
+usage   = putStrLn "Usage: htodo -/+ [todo/index ..]"
+version = putStrLn "Haskell htodo 0.1"
+exit    = exitWith ExitSuccess
+--die     = exitWith (ExitFailure 1)
