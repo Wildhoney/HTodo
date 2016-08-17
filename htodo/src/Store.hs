@@ -1,13 +1,10 @@
 module Store (addTodo, removeTodo, enumTodos) where
 
-import System.IO        (writeFile)
+import System.IO        (writeFile, hPutStr, openTempFile)
 import System.Directory (removeFile, renameFile)
 
 filename :: String
 filename = "./htodo/todos.txt"
-
-tmpFilename :: String
-tmpFilename = "./htodo/todos.tmp"
 
 readTodos :: IO [String]
 readTodos = readFile filename >>= return . lines
@@ -16,14 +13,14 @@ addTodo :: String -> IO ()
 addTodo task = appendFile filename (task ++ "\n") >> return ()
 
 removeTodo :: Integer -> IO ()
-removeTodo index = removeWhere index >>= stripIndexes >>= writeTemp >>= copyFile >> return ()
-    where
-        removeWhere index = enumTodos >>= return . filter (\x -> not $ fst x == index)
-        stripIndexes      = return . map snd
-        writeTemp         = writeFile tmpFilename . unlines
-        copyFile          = return $ removeFile filename >> renameFile tmpFilename filename
+removeTodo index = openTempFile "." "txt" >>= \(name, handle) ->
+    enumTodos >>=
+    return . filter (\x -> not $ fst x == index) >>=
+    return . map snd >>=
+    hPutStr handle . unlines >>
+    removeFile filename >>
+    renameFile name filename >>
+    return ()
 
 enumTodos :: IO [(Integer, String)]
-enumTodos = readTodos >>= parseLines
-    where
-        parseLines content = return $ zip [1..] $ content
+enumTodos = readTodos >>= return . zip [1..]
