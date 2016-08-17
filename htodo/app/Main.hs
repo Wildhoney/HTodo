@@ -7,7 +7,7 @@ import Store              (addTodo, removeTodo, enumTodos)
 main = getArgs >>= parse
 
 parse ["+", todo]  = addTodo todo
-parse ["-", index] = removeTodo 1
+parse ["-", index] = removeTodo (read index :: Integer)
 parse []           = enumTodos >>= print >> exit
 
 usage   = putStrLn "Usage: htodo -/+ [todo/index ..]"
