@@ -8,12 +8,11 @@ import Store                  (addTodo, removeTodo, enumTodos)
 
 data HTodoArgs = HTodoArgs {
     add    :: String,
-    remove :: String,
+    remove :: Integer,
     list   :: String
 } deriving (Show, Data, Typeable)
 
 handleArgs :: HTodoArgs -> IO [(Integer, String)]
-handleArgs HTodoArgs { add    = task@(_:_) }  = addTodo task >> enumTodos
-handleArgs HTodoArgs { remove = index@(_:_) } = removeTodo 1 >> enumTodos
-handleArgs HTodoArgs { list   = (_:_) }       = enumTodos
---handleArgs args                               = print args
+handleArgs HTodoArgs { add    = task@(_:_) } = addTodo task >> enumTodos
+handleArgs HTodoArgs { remove = index }      = removeTodo index >> enumTodos
+handleArgs HTodoArgs { list   = (_:_) }      = enumTodos

@@ -15,7 +15,7 @@ addTodo task = appendFile filename (task ++ "\n") >> return ()
 removeTodo :: Integer -> IO ()
 removeTodo index = openTempFile "." "txt" >>= \(name, handle) ->
     enumTodos >>=
-    return . filter (\x -> not $ fst x == index) >>=
+    return . filter (\todo -> not $ fst todo == index) >>=
     return . map snd >>=
     hPutStr handle . unlines >>
     removeFile filename >>
