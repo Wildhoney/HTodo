@@ -1,4 +1,4 @@
-module Store (addTodo, removeTodo, enumTodos) where
+module Store            (addTodo, removeTodo, enumTodos) where
 
 import System.IO        (writeFile, hPutStr, openTempFile)
 import System.Directory (removeFile, renameFile)
