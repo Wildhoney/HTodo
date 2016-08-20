@@ -1,7 +1,7 @@
-module Store            (addTodo, removeTodo, enumTodos) where
+module Store               (addTodo, removeTodo, enumTodos) where
 
-import System.IO        (writeFile, hPutStr, openTempFile)
-import System.Directory (removeFile, renameFile)
+import System.IO           (writeFile, hPutStr, openTempFile)
+import System.Directory    (removeFile, renameFile)
 
 filename :: String
 filename = "./htodo/todos.txt"
