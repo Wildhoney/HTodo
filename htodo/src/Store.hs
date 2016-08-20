@@ -7,7 +7,7 @@ filename :: String
 filename = "./htodo/todos.txt"
 
 addTodo :: String -> IO ()
-addTodo task = appendFile filename (task ++ "\n") >> return ()
+addTodo task = appendFile filename (task ++ "\n")
 
 removeTodo :: Integer -> IO ()
 removeTodo index = openTempFile "." "txt" >>= \(name, handle) ->
@@ -16,8 +16,7 @@ removeTodo index = openTempFile "." "txt" >>= \(name, handle) ->
     return . map snd >>=
     hPutStr handle . unlines >>
     removeFile filename >>
-    renameFile name filename >>
-    return ()
+    renameFile name filename
 
 enumTodos :: IO [(Integer, String)]
 enumTodos = readFile filename >>= return . lines >>= return . zip [1..]
