@@ -7,7 +7,7 @@ import System.Console.ANSI (setSGR, SGR(SetColor, SetConsoleIntensity, Reset), C
                             ColorIntensity(Vivid), Color(Cyan))
 
 main :: IO ()
-main = getArgs >>= parse
+main = title >> getArgs >>= parse
 
 title :: IO ()
 title = setSGR [SetColor Foreground Vivid Cyan] >>
@@ -16,9 +16,9 @@ title = setSGR [SetColor Foreground Vivid Cyan] >>
         setSGR [Reset]
 
 parse :: [String] -> IO ()
-parse ["+", todo]  = title >> addTodo todo
-parse ["-", index] = title >> removeTodo (read index :: Integer)
-parse []           = title >> enumTodos >>= enumerate >> exit
+parse ["+", todo]  = addTodo todo
+parse ["-", index] = removeTodo (read index :: Integer)
+parse []           = enumTodos >>= enumerate >> exit
     where
         transform = \todo -> " " ++ (show (fst todo) :: String) ++ ": " ++ snd todo
         enumerate = putStrLn . unlines . map transform
