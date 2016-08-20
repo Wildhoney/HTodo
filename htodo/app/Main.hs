@@ -3,7 +3,7 @@ module Main where
 import System.Environment  (getArgs)
 import System.Exit         (exitWith, ExitCode(..))
 import Store               (addTodo, removeTodo, enumTodos)
-import System.Console.ANSI (setSGR, SGR(..), ConsoleLayer(..), ColorIntensity(..), Color(..))
+import System.Console.ANSI (setSGR, SGR(SetColor, Reset), ConsoleLayer(Foreground), ColorIntensity(Vivid), Color(Cyan))
 
 main = getArgs >>= parse
 
