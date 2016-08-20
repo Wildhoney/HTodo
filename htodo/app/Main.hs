@@ -6,8 +6,10 @@ import Store               (addTodo, removeTodo, enumTodos)
 import System.Console.ANSI (setSGR, SGR(SetColor, SetConsoleIntensity, Reset), ConsoleIntensity(..), ConsoleLayer(Foreground),
                             ColorIntensity(Vivid), Color(Cyan))
 
+main :: IO ()
 main = getArgs >>= parse
 
+title :: IO ()
 title = setSGR [SetColor Foreground Vivid Cyan] >>
         setSGR [SetConsoleIntensity BoldIntensity] >>
         putStrLn "\nHTodo\n" >>
